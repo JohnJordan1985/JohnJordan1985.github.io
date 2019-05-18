@@ -6,6 +6,66 @@
     font-style: normal;
 }
 
+html {
+	height: 100vh;
+}
+
 body {
 	font-family: "IBM Plex Mono", Courier, monospace;
+	height: 100%;
+	position: relative;
+	padding-bottom: 100px; /* footer height */
+	padding: 1rem;
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
+h1 {
+	font-size: 3rem;
+	line-height: 3.5rem;
+	margin-bottom: 3.5rem;
+}
+h2 {
+	font-size: 1.5rem;
+	line-height: 2rem;
+	margin-bottom: 1.5rem;
+}
+p {
+	margin-bottom: 1.5rem;
+}
+main {
+	max-width: 600px;
+	display: table;
+	margin: auto;
+}
+
+.project-list {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.project-list li {
+	margin-bottom: 3.5rem;
+}
+
+details {
+	background-color: rgb(240,240,240);
+}
+
+details summary {
+	background-color: rgb(220, 220, 220) ;
+}
+
+details summary::after {
+	content: "Click to learn more";
+}
+
+details p {
+	padding: 0 1rem;
+	margin-bottom: 1rem;
+}
+
+footer {
+	position: absolute;
+	height: 100px;
+	bottom: 0;
 }
