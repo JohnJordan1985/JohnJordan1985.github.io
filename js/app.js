@@ -1,6 +1,7 @@
 const ghpagesProjects = [
 	{
 		name: "Caeser Cipher",
+		projectURL: "https://johnjordan1985.github.io/caesar-cipher/",
 		description: `<p>A fully functional attempt to explain Public Key Encryption, which is the basis of most of the secure communication over the internet.</p>`,
 		details: `<p>Includes some of the history behind encryption, beginning with the illustrious Julius Caeser, and allows to user to <em>encrypt</em> and <em>decrypt</em> short text-based messages.</p>`
 	},	{
@@ -29,6 +30,7 @@ let getNodesWithContent = index => {
 		document.createElement("li"),
 		document.createElement("h2"),
 		document.createElement("div"),
+		document.createElement("a"),
 		document.createTextNode(ghpagesProjects[index].name),
 		ghpagesProjects[index].description,
 		document.createElement("details"),
@@ -39,14 +41,17 @@ let getNodesWithContent = index => {
 let appendProjectsToTarget = (projectList, targetID) => {
 	let docFrag = documentFragment = document.createDocumentFragment();
 	let targetElement = document.getElementById(targetID), numProjects = projectList.length;
-	let project, projectH2, projectDescription, projectH2Text, projectDescriptionContent, projectDetails, projectSummary;
+	let project, projectH2, projectDescription, projectH2LinkElement, projectDescriptionContent, projectDetails, projectSummary;
 
 	for(let i = 0; i < numProjects; i++) {
-		[project, projectH2, projectDescription, projectH2Text, projectDescriptionContent,projectDetails, projectSummary] = getNodesWithContent(i);
+		[project, projectH2, projectDescription, projectH2LinkElement, projectH2Text, projectDescriptionContent,projectDetails, projectSummary] = getNodesWithContent(i);
 		projectDescription.innerHTML = projectDescriptionContent; // setting innerHTML to allow use of HTML tags
 		projectDetails.innerHTML = projectList[i].details;
 		projectDetails.prepend(projectSummary);
-		projectH2.appendChild(projectH2Text),
+		projectH2LinkElement.href = projectList[i].projectURL;
+		projectH2LinkElement.appendChild(projectH2Text);
+
+		projectH2.appendChild(projectH2LinkElement),
 		project.appendChild(projectH2),
 		project.appendChild(projectDescription),
 		project.appendChild(projectDetails),
