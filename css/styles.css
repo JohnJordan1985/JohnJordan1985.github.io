@@ -58,10 +58,6 @@ details summary {
 	background-color: rgb(220, 220, 220) ;
 }
 
-details summary::after {
-	content: "Click to learn more";
-}
-
 details p {
 	padding: 0 1rem;
 	margin-bottom: 1rem;
