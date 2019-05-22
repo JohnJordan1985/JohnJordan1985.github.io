@@ -22,7 +22,7 @@ var ghpagesProjects = [{
   name: "Caeser Cipher",
   projectURL: "https://johnjordan1985.github.io/caesar-cipher/",
   description: "A fully functional attempt to explain Public Key Encryption, which is the basis of most of the secure communication over the internet.",
-  details: "Includes some of the history behind encryption, beginning with the illustrious Julius Caeser, and allows to user to encrypt and decrypt short text-based messages."
+  details: "Includes some of the history behind encryption, beginning with the illustrious Julius Caeser, and allows the user to encrypt and decrypt short text-based messages."
 }, {
   name: "FizzBuzz",
   projectURL: null,

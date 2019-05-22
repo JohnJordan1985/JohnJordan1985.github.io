@@ -6,12 +6,140 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="lib/normalize-v8.0.1.css">
 	<link rel="stylesheet" href="css/styles.css">
+	<style>
+		@font-face {
+		    font-family: 'IBM Plex Mono';
+		    src: url('/fonts/ibmplexmono-bold-webfont.woff2') format('woff2'),
+		         url('/fonts/ibmplexmono-bold-webfont.woff') format('woff');
+		    font-weight: 600;
+		    font-style: normal;
+		}
+
+		@font-face {
+		    font-family: 'IBM Plex Mono';
+		    src: url('/fonts/ibmplexmono-light-webfont.woff2') format('woff2'),
+		         url('/fonts/ibmplexmono-light-webfont.woff') format('woff');
+		    font-weight: 300;
+		    font-style: normal;
+		}
+
+
+		@font-face {
+		    font-family: 'IBM Plex Mono';
+		    src: url('/fonts/ibmplexmono-lightitalic-webfont.woff2') format('woff2'),
+		         url('/fonts/ibmplexmono-lightitalic-webfont.woff') format('woff');
+		    font-weight: 300;
+		    font-style: italic;
+		}
+		html,
+		body {
+		 height: 100%;
+		 min-height: 100%;
+		 height: auto;
+		 position: relative;
+		 /* Baseline grind vertical rhytmn based on multiples of 15px margin: 60px 0 0; */
+		 margin: 0;
+		 padding: 0;
+		 font-family: "IBM Plex Mono", monospace;
+		 font-size: 21px;
+		 font-weight: 300;
+		 color: rgb(60,60,60);
+		 text-align: center;
+		}
+		/* Classical typographical scale: 9	10	11	12	14	16	18	21	24	30	36	48	60	72 */
+		em {
+			font-style: italic;
+		}
+		strong {
+			font-weight: bold;
+		}
+		.text-center {
+			text-align: center;
+		}
+		.font-shamrock-green {
+			color: #009e60;
+		}
+		.bg-white {
+			background-color: white;
+		}
+		.background-image-square {
+			background-image: url(img/background_body.png);
+			background-repeat: repeat;
+			background-attachment: fixed;
+		}
+		.position-relative {
+			position: relative;
+		}
+		.z-1 {
+			position: relative;
+			z-index: 1;
+		}
+		.z-2 {
+			position: relative;
+			z-index: 2;
+		}
+		a:link {
+			color: #AB1EA5;
+		}
+		span.clipped-square-left, span.clipped-square-right  {
+			position: absolute;
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			max-width: 100%; /* Avoids overfilling parent container when animation start */
+			background: #00623a;
+			/*-webkit-animation: example 1 2s ease-in-out;
+			-o-animation: example 1 2s ease-in-out;
+			animation: example 1 2s ease-in-out;*/
+		}
+		span.clipped-square-left {
+			top: -10px;
+			left: -15px; /* on account of padding horizontal of 15px */
+		}
+
+		span.clipped-square-right {
+			bottom: -10px; /* on account of margin-bottom of 60px on h1 */
+			right: -15px;
+		}
+		main, section, aside, article {
+			text-align: left;
+		}
+		main {
+			padding: 60px 15px;
+		}
+		h1 {
+			font-weight: 600;
+			color: #00492C;
+			margin-top: 0;
+			font-size: 36px ;
+			line-height: 48px;
+		}
+		h2 {
+			font-size: 30px;
+			line-height: 36px;
+		}
+		p, ul, ol, blockquote, details, summary {
+			font-size: 21px;
+			line-height: 30px;
+			margin: 0 0 30px;
+		}
+		details[open] {
+			padding-bottom: 15px;
+		}
+		ul {
+			list-style-type: square;
+		}
+	</style>
 </head>
-<body>
-	<main>
+<body class="background-image-square">
+	<main class="bg-white">
 		<section>
 			<header>
-				<h1>GitHub Pages Projects</h1>
+				<div class="position-relative z-1">
+					<span class="clipped-square-left"></span>
+					<h1 class="font-shamrock-green z-2 bg-white text-center">GitHub Pages Projects</h1>
+					<span class="clipped-square-right"></span>
+				</div>
 				<p>A list of my GitHub projects that have a webpage associated with them:</p>
 			</header>
 			<section id="projectList_wrapper" >
@@ -19,13 +147,14 @@
 			</section>
 
 		</section>
-
 	</main>
 	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
 	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-	<!-- <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script> -->
 	<!-- To interpret JSX in script file -->
-	<!-- <script src="app.js" type="text/babel"></script> -->
+	<!-- Toggle when developing
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	<script src="babel-test/src/app.js" type="text/babel"></script>
+	End Toggle when developing -->
 	<script src="js/app.js"></script>
 </body>
 </html>
