@@ -18,33 +18,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var listedRepos = [{
-  name: "Caeser Cipher",
-  id: 183995858,
-  description: "A fully functional attempt to explain Public Key Encryption, which is the basis of most of the secure communication over the internet.",
-  details: "Includes some of the history behind encryption, beginning with the illustrious Julius Caeser, and allows the user to encrypt and decrypt short text-based messages."
-}, {
-  name: "FizzBuzz",
-  id: 182310084,
-  details: "I didn't know what 'FizzBuzz' was, but after having it explained to me, I challenged myself to solve it using CSS3 alone: I simultaneously solved it using JavaScript, for comparison. The retro 90's eyeball-bleeding appearance is a bit of an in-joke...",
-  description: "After suggesting the 'nth-child' CSS selector to solve a front-end issue for a DevOps colleague, they mused that you could use CSS to solve the 'FizzBuzz' challenge. "
-}, {
-  name: "Revamped Confetti",
-  id: 133503450,
-  details: "Returned to this project to apply my learnings in typography, color theory and content writing, as well as to test out the newly stable Bootstrap 4 framework (the original project had used Bootstrap 3).",
-  description: "An update of a university project, where I had to design a landing page for a \"full sprectrum\" wedding service called \"Ready Confetti\" "
-}, {
-  name: "List-O-Rama",
-  id: 96696380,
-  details: "A straight-forward \"To-Do List\" application, which uses localStorage to store user input and allow use offline.",
-  description: "A university project to build a simple jQuery \"To-Do List\" application."
-}, {
-  name: "Galway Pub Finder",
-  id: 66479971,
-  details: "My first web application. It was fun to build, but not so fun to use: it doesn't display well on mobile, and only displays a fraction of the pubs in my hometown. Not that pubs are hard to find in my hometown or anything...",
-  description: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display various pubs on a map."
-}];
-
 var isListedRepo = function isListedRepo(repoId, repoList) {
   var l = repoList.length;
 
@@ -55,30 +28,16 @@ var isListedRepo = function isListedRepo(repoId, repoList) {
   }
 
   return false;
-}; // Not a repo ID
+};
 
-
-console.log(isListedRepo(10, listedRepos)); // Repo ID, but not a listed repo
-
-console.log(isListedRepo(68470429, listedRepos)); // Listed repo ID
-
-console.log(isListedRepo(66479971, listedRepos));
-var ghpagesProjects = [{
-  name: "Caeser Cipher",
-  projectURL: "https://johnjordan1985.github.io/caesar-cipher/"
-}, {
-  name: "FizzBuzz",
-  projectURL: null
-}, {
-  name: "Revamped Confetti",
-  projectURL: null
-}, {
-  name: "List-O-Rama",
-  projectURL: null
-}, {
-  name: "Galway Pub Finder",
-  projectURL: null
-}];
+var formatDate = function formatDate(ISODateTime) {
+  var date = new Date(ISODateTime);
+  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+  return monthNames[monthIndex] + ' ' + day + ', ' + year;
+};
 
 var Project =
 /*#__PURE__*/
@@ -97,7 +56,7 @@ function (_React$Component) {
       var project = this.props.project;
       return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
         href: project.homepage
-      }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)));
+      }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", null, "Last Updated: ", formatDate(project.updated_at)));
     }
   }]);
 
@@ -145,44 +104,60 @@ function (_React$Component2) {
         id: 66479971,
         homepage: "https://johnjordan1985.github.io/Galway-Pub-Finder/",
         details: "My first web application. It was fun to build, but not so fun to use: it doesn't display well on mobile, and only displays a fraction of the pubs in my hometown. Not that pubs are hard to find in my hometown or anything...",
-        projectDescription: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display various pubs on a map."
+        projectDescription: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display letious pubs on a map."
       }]
     };
+    _this._isMounted = false;
     return _this;
   }
 
   _createClass(ProjectList, [{
-    key: "mergeLists",
-    value: function mergeLists(listAPI, list) {
-      var l = list.length;
+    key: "_mergeLists",
+    value: function _mergeLists(listAPI, list) {
+      var l = list.length; // Sorts arrays, so they match up for merge within for loop
+
+      listAPI.sort(function (a, b) {
+        return b.id - a.id;
+      });
+      list.sort(function (a, b) {
+        return b.id - a.id;
+      });
 
       for (var i = 0; i < l; i++) {
-        console.log(list[i]);
         listAPI[i] = Object.assign(listAPI[i], list[i]);
       }
 
       return listAPI;
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "componentWillMount",
+    value: function componentWillMount() {
       var _this2 = this;
 
+      this._isMounted = true;
       var listedRepoListFromAPI;
+      var decoratedListedRepos;
       var allRepos = fetch("https://api.github.com/users/JohnJordan1985/repos?&per_page=100").then(function (results) {
         return results.json();
       }).then(function (data) {
         listedRepoListFromAPI = data.filter(function (repo) {
-          return isListedRepo(repo.id, listedRepos);
+          return isListedRepo(repo.id, _this2.state.projects);
         });
 
-        var decoratedListedRepos = _this2.mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
+        var decoratedListedRepos = _this2._mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
 
 
-        _this2.setState({
-          projects: decoratedListedRepos
-        });
+        if (_this2._isMounted) {
+          _this2.setState({
+            projects: decoratedListedRepos
+          });
+        }
       });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this._isMounted = false;
     }
   }, {
     key: "render",
