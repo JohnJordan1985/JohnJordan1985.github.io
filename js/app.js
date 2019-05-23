@@ -96,8 +96,8 @@ function (_React$Component) {
     value: function render() {
       var project = this.props.project;
       return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
-        href: project.html_url
-      }, project.name)), React.createElement("p", null, project.description), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)));
+        href: project.homepage
+      }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)));
     }
   }]);
 
@@ -116,33 +116,71 @@ function (_React$Component2) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
     _this.state = {
-      projects: []
+      projects: [{
+        projectName: "Caeser Cipher",
+        id: 183995858,
+        homepage: "https://johnjordan1985.github.io/caesar-cipher/",
+        details: "Includes some of the history behind encryption, beginning with the illustrious Julius Caeser, and allows the user to encrypt and decrypt short text-based messages.",
+        projectDescription: "A fully functional attempt to explain Public Key Encryption, which is the basis of most of the secure communication over the internet."
+      }, {
+        projectName: "FizzBuzz",
+        id: 182310084,
+        homepage: "https://johnjordan1985.github.io/fizzbuzz/",
+        details: "I didn't know what 'FizzBuzz' was, but after having it explained to me, I challenged myself to solve it using CSS3 alone: I simultaneously solved it using JavaScript, for comparison. The retro 90's eyeball-bleeding appearance is a bit of an in-joke...",
+        projectDescription: "After suggesting the 'nth-child' CSS selector to solve a front-end issue for a DevOps colleague, they mused that you could use CSS to solve the 'FizzBuzz' challenge. "
+      }, {
+        projectName: "Revamped Confetti",
+        id: 133503450,
+        homepage: "https://johnjordan1985.github.io/revamped-confetti/",
+        details: "Returned to this project to apply my learnings in typography, color theory and content writing, as well as to test out the newly stable Bootstrap 4 framework (the original project had used Bootstrap 3).",
+        projectDescription: "An update of a university project, where I had to design a landing page for a \"full sprectrum\" wedding service called \"Ready Confetti\" "
+      }, {
+        projectName: "List-O-Rama",
+        id: 96696380,
+        homepage: "https://johnjordan1985.github.io/revamped-confetti/",
+        details: "A straight-forward \"To-Do List\" application, which uses localStorage to store user input and allow use offline.",
+        projectDescription: "A university project to build a simple jQuery \"To-Do List\" application."
+      }, {
+        projectName: "Galway Pub Finder",
+        id: 66479971,
+        homepage: "https://johnjordan1985.github.io/Galway-Pub-Finder/",
+        details: "My first web application. It was fun to build, but not so fun to use: it doesn't display well on mobile, and only displays a fraction of the pubs in my hometown. Not that pubs are hard to find in my hometown or anything...",
+        projectDescription: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display various pubs on a map."
+      }]
     };
     return _this;
   }
 
   _createClass(ProjectList, [{
+    key: "mergeLists",
+    value: function mergeLists(listAPI, list) {
+      var l = list.length;
+
+      for (var i = 0; i < l; i++) {
+        console.log(list[i]);
+        listAPI[i] = Object.assign(listAPI[i], list[i]);
+      }
+
+      return listAPI;
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
-      var listedRepoList;
+      var listedRepoListFromAPI;
       var allRepos = fetch("https://api.github.com/users/JohnJordan1985/repos?&per_page=100").then(function (results) {
         return results.json();
       }).then(function (data) {
-        listedRepoList = data.filter(function (repo) {
+        listedRepoListFromAPI = data.filter(function (repo) {
           return isListedRepo(repo.id, listedRepos);
         });
-        console.log(listedRepoList);
-        var projects = listedRepoList.map(function (project, index) {
-          return React.createElement(Project, {
-            project: project,
-            key: index
-          });
-        });
+
+        var decoratedListedRepos = _this2.mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
+
 
         _this2.setState({
-          projects: projects
+          projects: decoratedListedRepos
         });
       });
     }
@@ -151,7 +189,12 @@ function (_React$Component2) {
     value: function render() {
       return React.createElement("ul", {
         className: "project-list"
-      }, this.state.projects);
+      }, this.state.projects.map(function (project, index) {
+        return React.createElement(Project, {
+          project: project,
+          key: index
+        });
+      }));
     }
   }]);
 
