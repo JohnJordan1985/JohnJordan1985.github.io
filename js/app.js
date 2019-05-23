@@ -30,19 +30,66 @@ var isListedRepo = function isListedRepo(repoId, repoList) {
   return false;
 };
 
-var formatDate = function formatDate(ISODateTime) {
-  var date = new Date(ISODateTime);
-  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  var day = date.getDate();
-  var monthIndex = date.getMonth();
-  var year = date.getFullYear();
-  return monthNames[monthIndex] + ' ' + day + ', ' + year;
-};
+var FormattedDate =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(FormattedDate, _React$Component);
+
+  function FormattedDate(props) {
+    var _this;
+
+    _classCallCheck(this, FormattedDate);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(FormattedDate).call(this, props));
+    _this.state = {
+      isVisible: false
+    };
+    _this._isMounted = false;
+    return _this;
+  }
+
+  _createClass(FormattedDate, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this._isMounted = true;
+
+      if (this._isMounted) {
+        this.setState({
+          isVisible: true
+        });
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this._isMounted = false;
+    }
+  }, {
+    key: "formatDate",
+    value: function formatDate(ISODateTime) {
+      var date = new Date(ISODateTime);
+      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var day = date.getDate();
+      var monthIndex = date.getMonth();
+      var year = date.getFullYear();
+      return monthNames[monthIndex] + ' ' + day + ', ' + year;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement("span", {
+        className: this.state.isVisible ? 'visible' : 'hidden'
+      }, this.formatDate(this.props.isoDate));
+    }
+  }]);
+
+  return FormattedDate;
+}(React.Component);
 
 var Project =
 /*#__PURE__*/
-function (_React$Component) {
-  _inherits(Project, _React$Component);
+function (_React$Component2) {
+  _inherits(Project, _React$Component2);
 
   function Project() {
     _classCallCheck(this, Project);
@@ -54,9 +101,13 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var project = this.props.project;
+      console.log('In Project Component, props are: ', this.props);
       return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
         href: project.homepage
-      }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", null, "Last Updated: ", formatDate(project.updated_at)));
+      }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", null, "Last Updated: ", React.createElement(FormattedDate, {
+        isMounted: this.props.isMounted,
+        isoDate: project.updated_at
+      })));
     }
   }]);
 
@@ -65,16 +116,16 @@ function (_React$Component) {
 
 var ProjectList =
 /*#__PURE__*/
-function (_React$Component2) {
-  _inherits(ProjectList, _React$Component2);
+function (_React$Component3) {
+  _inherits(ProjectList, _React$Component3);
 
   function ProjectList(props) {
-    var _this;
+    var _this2;
 
     _classCallCheck(this, ProjectList);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
-    _this.state = {
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
+    _this2.state = {
       projects: [{
         projectName: "Caeser Cipher",
         id: 183995858,
@@ -107,8 +158,8 @@ function (_React$Component2) {
         projectDescription: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display letious pubs on a map."
       }]
     };
-    _this._isMounted = false;
-    return _this;
+    _this2._isMounted = false;
+    return _this2;
   }
 
   _createClass(ProjectList, [{
@@ -132,7 +183,7 @@ function (_React$Component2) {
   }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       this._isMounted = true;
       var listedRepoListFromAPI;
@@ -141,14 +192,14 @@ function (_React$Component2) {
         return results.json();
       }).then(function (data) {
         listedRepoListFromAPI = data.filter(function (repo) {
-          return isListedRepo(repo.id, _this2.state.projects);
+          return isListedRepo(repo.id, _this3.state.projects);
         });
 
-        var decoratedListedRepos = _this2._mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
+        var decoratedListedRepos = _this3._mergeLists(listedRepoListFromAPI, _this3.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
 
 
-        if (_this2._isMounted) {
-          _this2.setState({
+        if (_this3._isMounted) {
+          _this3.setState({
             projects: decoratedListedRepos
           });
         }
@@ -162,12 +213,15 @@ function (_React$Component2) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       return React.createElement("ul", {
         className: "project-list"
       }, this.state.projects.map(function (project, index) {
         return React.createElement(Project, {
           project: project,
-          key: index
+          key: index,
+          isMounted: _this4._isMounted
         });
       }));
     }
