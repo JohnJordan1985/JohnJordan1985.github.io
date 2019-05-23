@@ -112,6 +112,10 @@
 			color: #AB1EA5;
 		}
 		/* CUSTOM STYLES */
+		hr {
+			border-top: 1px solid rgb(120,120,120);
+			width: 100%;
+		}
 		details[open] {
 			padding-bottom: 15px;
 		}
@@ -138,6 +142,12 @@
 			bottom: -10px; /* on account of margin-bottom of 60px on h1 */
 			right: -15px;
 		}
+		.alert-info {
+			margin: auto 15px;
+			padding: 15px;
+			background-color: #ECFFF8;
+			border-left: 5px solid #00492C;
+		}
 	</style>
 </head>
 <body class="background-image-square">
@@ -149,27 +159,38 @@
 					<h1 class="font-shamrock-green z-2 bg-white text-center">GitHub Pages Projects</h1>
 					<span class="clipped-square-right"></span>
 				</div>
-				<p class="lead">Some of my <em>on-going</em> GitHub projects, and their associated web-page:</p>
+				<p class="lead">Some of my <em>on-going</em> GitHub projects, and their associated web-pages:</p>
 			</header>
+			<hr />
 			<div id="projectList_wrapper" >
-				If you can see this message, then something has gone wrong. Try opening this page in another browser, e.g. the latest version of Chrome or Firefox.
+				<p class="alert-info">
+					If you can see this message, then something has gone wrong. Try opening this page in another browser, e.g. the latest version of Chrome or Firefox.
+
+				</p>
 			</div>
 		</section>
 
 	</main>
 	<!-- Toggle when developing
-	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-	<script src="babel-test/src/app.js" type="text/babel"></script>
-	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-	<script src="babel-test/src/app.js" type="text/babel"></script>
 
-	 End Toggle when developing -->
 
 	<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
 		<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
 		<script src="js/app.js"></script>
+
+
+
+
+	 End Toggle when developing -->
+
+	 <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+	 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+	 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	 <script src="babel-test/src/app.js" type="text/babel"></script>
+	 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	 <script src="babel-test/src/app.js" type="text/babel"></script>
+
+
 
 
 
