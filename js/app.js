@@ -35,36 +35,13 @@ var FormattedDate =
 function (_React$Component) {
   _inherits(FormattedDate, _React$Component);
 
-  function FormattedDate(props) {
-    var _this;
-
+  function FormattedDate() {
     _classCallCheck(this, FormattedDate);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(FormattedDate).call(this, props));
-    _this.state = {
-      isVisible: false
-    };
-    _this._isMounted = false;
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(FormattedDate).apply(this, arguments));
   }
 
   _createClass(FormattedDate, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      this._isMounted = true;
-
-      if (this._isMounted) {
-        this.setState({
-          isVisible: true
-        });
-      }
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this._isMounted = false;
-    }
-  }, {
     key: "formatDate",
     value: function formatDate(ISODateTime) {
       var date = new Date(ISODateTime);
@@ -77,8 +54,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log('In render of FormateedDate:, ', this.props);
       return React.createElement("span", {
-        className: this.state.isVisible ? 'visible' : 'hidden'
+        className: this.props.apiData ? 'visible' : 'hidden'
       }, this.formatDate(this.props.isoDate));
     }
   }]);
@@ -105,7 +83,7 @@ function (_React$Component2) {
       return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
         href: project.homepage
       }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", null, "Last Updated: ", React.createElement(FormattedDate, {
-        isMounted: this.props.isMounted,
+        apiData: this.props.apiData,
         isoDate: project.updated_at
       })));
     }
@@ -120,12 +98,13 @@ function (_React$Component3) {
   _inherits(ProjectList, _React$Component3);
 
   function ProjectList(props) {
-    var _this2;
+    var _this;
 
     _classCallCheck(this, ProjectList);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
-    _this2.state = {
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
+    _this.state = {
+      apiData: false,
       projects: [{
         projectName: "Caeser Cipher",
         id: 183995858,
@@ -158,8 +137,8 @@ function (_React$Component3) {
         projectDescription: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display letious pubs on a map."
       }]
     };
-    _this2._isMounted = false;
-    return _this2;
+    _this._isMounted = false;
+    return _this;
   }
 
   _createClass(ProjectList, [{
@@ -183,7 +162,7 @@ function (_React$Component3) {
   }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this3 = this;
+      var _this2 = this;
 
       this._isMounted = true;
       var listedRepoListFromAPI;
@@ -192,14 +171,15 @@ function (_React$Component3) {
         return results.json();
       }).then(function (data) {
         listedRepoListFromAPI = data.filter(function (repo) {
-          return isListedRepo(repo.id, _this3.state.projects);
+          return isListedRepo(repo.id, _this2.state.projects);
         });
 
-        var decoratedListedRepos = _this3._mergeLists(listedRepoListFromAPI, _this3.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
+        var decoratedListedRepos = _this2._mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
 
 
-        if (_this3._isMounted) {
-          _this3.setState({
+        if (_this2._isMounted) {
+          _this2.setState({
+            apiData: true,
             projects: decoratedListedRepos
           });
         }
@@ -213,7 +193,7 @@ function (_React$Component3) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       return React.createElement("ul", {
         className: "project-list"
@@ -221,7 +201,7 @@ function (_React$Component3) {
         return React.createElement(Project, {
           project: project,
           key: index,
-          isMounted: _this4._isMounted
+          apiData: _this3.state.apiData
         });
       }));
     }
