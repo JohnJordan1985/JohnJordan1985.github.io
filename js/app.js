@@ -30,72 +30,35 @@ var isListedRepo = function isListedRepo(repoId, repoList) {
   return false;
 };
 
-var FormattedDate =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(FormattedDate, _React$Component);
+var FormattedDate = function FormattedDate(props) {
+  var formatDate = function formatDate(ISODateTime) {
+    var date = new Date(ISODateTime);
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    return monthNames[monthIndex] + ' ' + day + ', ' + year;
+  };
 
-  function FormattedDate() {
-    _classCallCheck(this, FormattedDate);
+  return React.createElement("span", null, formatDate(props.isoDate));
+};
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(FormattedDate).apply(this, arguments));
-  }
-
-  _createClass(FormattedDate, [{
-    key: "formatDate",
-    value: function formatDate(ISODateTime) {
-      var date = new Date(ISODateTime);
-      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      var day = date.getDate();
-      var monthIndex = date.getMonth();
-      var year = date.getFullYear();
-      return monthNames[monthIndex] + ' ' + day + ', ' + year;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      console.log('In render of FormateedDate:, ', this.props);
-      return React.createElement("span", {
-        className: this.props.apiData ? 'visible' : 'hidden'
-      }, this.formatDate(this.props.isoDate));
-    }
-  }]);
-
-  return FormattedDate;
-}(React.Component);
-
-var Project =
-/*#__PURE__*/
-function (_React$Component2) {
-  _inherits(Project, _React$Component2);
-
-  function Project() {
-    _classCallCheck(this, Project);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Project).apply(this, arguments));
-  }
-
-  _createClass(Project, [{
-    key: "render",
-    value: function render() {
-      var project = this.props.project;
-      console.log('In Project Component, props are: ', this.props);
-      return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
-        href: project.homepage
-      }, project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", null, "Last Updated: ", React.createElement(FormattedDate, {
-        apiData: this.props.apiData,
-        isoDate: project.updated_at
-      })));
-    }
-  }]);
-
-  return Project;
-}(React.Component);
+var Project = function Project(props) {
+  var project = props.project;
+  return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
+    href: project.homepage
+  }, " ", project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", {
+    className: props.apiData ? 'visible' : 'hidden'
+  }, "Last Updated: ", React.createElement(FormattedDate, {
+    apiData: props.apiData,
+    isoDate: project.updated_at
+  })));
+};
 
 var ProjectList =
 /*#__PURE__*/
-function (_React$Component3) {
-  _inherits(ProjectList, _React$Component3);
+function (_React$Component) {
+  _inherits(ProjectList, _React$Component);
 
   function ProjectList(props) {
     var _this;
