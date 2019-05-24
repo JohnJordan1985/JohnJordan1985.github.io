@@ -18,18 +18,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var isListedRepo = function isListedRepo(repoId, repoList) {
-  var l = repoList.length;
-
-  for (var i = 0; i < l; i++) {
-    if (repoList[i].id === repoId) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
 var FormattedDate = function FormattedDate(props) {
   var formatDate = function formatDate(ISODateTime) {
     var date = new Date(ISODateTime);
@@ -49,10 +37,16 @@ var Project = function Project(props) {
     href: project.homepage
   }, " ", project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", {
     className: props.apiData ? 'visible' : 'hidden'
-  }, "Last Updated: ", React.createElement(FormattedDate, {
+  }, React.createElement("span", {
+    style: {
+      marginRight: 15 + 'px',
+      display: 'inline-block',
+      minWidth: 220 + 'px'
+    }
+  }, "Updated: ", React.createElement(FormattedDate, {
     apiData: props.apiData,
     isoDate: project.updated_at
-  })));
+  })), " ", project.language));
 };
 
 var ProjectList =
@@ -123,6 +117,19 @@ function (_React$Component) {
       return listAPI;
     }
   }, {
+    key: "_isListedRepo",
+    value: function _isListedRepo(repoId, repoList) {
+      var l = repoList.length;
+
+      for (var i = 0; i < l; i++) {
+        if (repoList[i].id === repoId) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }, {
     key: "componentWillMount",
     value: function componentWillMount() {
       var _this2 = this;
@@ -134,7 +141,7 @@ function (_React$Component) {
         return results.json();
       }).then(function (data) {
         listedRepoListFromAPI = data.filter(function (repo) {
-          return isListedRepo(repo.id, _this2.state.projects);
+          return _this2._isListedRepo(repo.id, _this2.state.projects);
         });
 
         var decoratedListedRepos = _this2._mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
