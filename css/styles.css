@@ -55,7 +55,11 @@ details {
 }
 
 details summary {
-	background-color: rgb(220, 220, 220) ;
+	/*background-color: rgb(220, 220, 220) ; */
+}
+
+details summary::-webkit-details-marker {
+  color: #00623a;
 }
 
 details p {

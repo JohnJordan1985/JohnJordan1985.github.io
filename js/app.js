@@ -33,20 +33,31 @@ var FormattedDate = function FormattedDate(props) {
 
 var Project = function Project(props) {
   var project = props.project;
+  var repoLangColorList = {
+    "HTML": "#e34c26",
+    "CSS": "#563d7c",
+    "JavaScript": "#f1e05a"
+  };
+
+  var getRepoLangColor = function getRepoLangColor(lang) {
+    return {
+      'backgroundColor': repoLangColorList[lang]
+    };
+  };
+
   return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
     href: project.homepage
   }, " ", project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", {
     className: props.apiData ? 'visible' : 'hidden'
-  }, React.createElement("span", {
-    style: {
-      marginRight: 15 + 'px',
-      display: 'inline-block',
-      minWidth: 220 + 'px'
-    }
   }, "Updated: ", React.createElement(FormattedDate, {
     apiData: props.apiData,
     isoDate: project.updated_at
-  })), " ", project.language));
+  }), React.createElement("span", {
+    className: "repo-lang-wrapper"
+  }, project.language, " ", React.createElement("span", {
+    className: "repo-lang-icon",
+    style: getRepoLangColor(project.language)
+  }), " ")));
 };
 
 var ProjectList =
@@ -79,7 +90,7 @@ function (_React$Component) {
         id: 133503450,
         homepage: "https://johnjordan1985.github.io/revamped-confetti/",
         details: "Returned to this project to apply my learnings in typography, color theory and content writing, as well as to test out the newly stable Bootstrap 4 framework (the original project had used Bootstrap 3).",
-        projectDescription: "An update of a university project, where I had to design a landing page for a \"full sprectrum\" wedding service called \"Ready Confetti\" "
+        projectDescription: "An update of a university project, where I had to design a landing page for a \"full spectrum\" wedding service called \"Ready Confetti\" "
       }, {
         projectName: "List-O-Rama",
         id: 96696380,
