@@ -47,17 +47,17 @@ var Project = function Project(props) {
 
   return React.createElement("li", null, React.createElement("h2", null, React.createElement("a", {
     href: project.homepage
-  }, " ", project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("small", {
-    className: props.apiData ? 'visible' : 'hidden'
+  }, " ", project.projectName)), React.createElement("p", null, project.projectDescription), React.createElement("details", null, React.createElement("summary", null, "Click to read more..."), React.createElement("p", null, project.details)), React.createElement("aside", {
+    className: "project-details ".concat(props.apiData ? 'visible' : 'hidden', " ")
   }, "Updated: ", React.createElement(FormattedDate, {
     apiData: props.apiData,
     isoDate: project.updated_at
   }), React.createElement("span", {
     className: "repo-lang-wrapper"
-  }, project.language, " ", React.createElement("span", {
+  }, React.createElement("span", {
     className: "repo-lang-icon",
     style: getRepoLangColor(project.language)
-  }), " ")));
+  }), " ", project.language, " ")));
 };
 
 var ProjectList =

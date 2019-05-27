@@ -124,7 +124,8 @@
 		}
 		details[open] {
 			padding-bottom: 15px;
-			background-color: #ECFFF8;
+			border: solid 1px #00623a; /* dark green border */
+
 		}
 
 		details[open] > summary {
@@ -170,8 +171,11 @@
 			background-color: #ECFFF8;
 			border-left: 5px solid #00492C;
 		}
+		aside.project-details {
+			font-size: 14px;
+		}
 		span.repo-lang-wrapper {
-			float: right;
+			display: block;
 		}
 		span.repo-lang-icon {
 			float: none;
@@ -179,6 +183,15 @@
 		    width: 10px;
 		    height: 10px;
 		    background-color: #00623a; /* Fallback in case React Component Failure */
+		}
+		@media only screen and (min-width: 500px) {
+			span.repo-lang-wrapper {
+				float: right;
+			}
+			span.repo-lang-icon {
+				float:right;
+				margin-top: 7.5px;
+			}
 		}
 	</style>
 </head>
