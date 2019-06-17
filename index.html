@@ -52,7 +52,7 @@
 			font-size: 21px;
 			line-height: 30px;
 		}
-		p, ul, ol, blockquote, details, summary {
+		p, ul, ol, blockquote, details, summary, .list-controls {
 			font-size: 18px;
 			line-height: 30px;
 			margin: 0 0 30px;
@@ -81,118 +81,7 @@
 		main {
 			padding: 60px 15px;
 		}
-		/* HELPER CLASSES */
-		.text-center {
-			text-align: center;
-		}
-		.font-shamrock-green {
-			color: #009e60;
-		}
-		.bg-white {
-			background-color: white;
-		}
-		.background-image-square {
-			background-image: url(img/background_body.png);
-			background-repeat: repeat;
-			background-attachment: fixed;
-		}
-		.position-relative {
-			position: relative;
-		}
-		.z-1 {
-			position: relative;
-			z-index: 1;
-		}
-		.z-2 {
-			position: relative;
-			z-index: 2;
-		}
-		.visible {
-			visibility: visible;
-		}
-		.hidden {
-			visibility: hidden;
-		}
-		/* NAVIGATION ELEMENTS */
-		a:link {
-			color: #AB1EA5;
-		}
-		/* CUSTOM STYLES */
-		hr {
-			border-top: 1px solid rgb(120,120,120);
-			width: 100%;
-		}
-		details[open] {
-			padding-bottom: 15px;
-			border: solid 1px #00623a; /* dark green border */
-
-		}
-
-		details[open] > summary {
-			border-bottom: solid 1px #00623a;
-		}
-
-		summary {
-			background-color: #ECFFF8;
-			border-bottom-color: transparent;
-			-webkit-transition: border-bottom-color 0.5s ease-in;
-			-moz-transition: border-bottom-color 0.5s ease-in;
-			-ms-transition: border-bottom-color 0.5s ease-in;
-			-o-transition: border-bottom-color 0.5s ease-in;
-			transition: border-bottom-color 0.5s ease-in;
-		}
-
-		ul {
-			list-style-type: square;
-		}
-		span.clipped-square-left, span.clipped-square-right  {
-			position: absolute;
-			display: inline-block;
-			width: 50px;
-			height: 50px;
-			max-width: 100%; /* Avoids overfilling parent container when animation start */
-			background: #00623a;
-			/*-webkit-animation: example 1 2s ease-in-out;
-			-o-animation: example 1 2s ease-in-out;
-			animation: example 1 2s ease-in-out;*/
-		}
-		span.clipped-square-left {
-			top: -10px;
-			left: -15px; /* on account of padding horizontal of 15px */
-		}
-
-		span.clipped-square-right {
-			bottom: -10px; /* on account of margin-bottom of 60px on h1 */
-			right: -15px;
-		}
-		.alert-info {
-			margin: auto 15px;
-			padding: 15px;
-			background-color: #ECFFF8;
-			border-left: 5px solid #00492C;
-		}
-		aside.project-details {
-			font-size: 14px;
-		}
-		span.repo-lang-wrapper {
-			display: block;
-		}
-		span.repo-lang-icon {
-			float: none;
-			display: inline-block;
-		    width: 10px;
-		    height: 10px;
-		    background-color: #00623a; /* Fallback in case React Component Failure */
-		}
-		@media only screen and (min-width: 500px) {
-			span.repo-lang-wrapper {
-				float: right;
-			}
-			span.repo-lang-icon {
-				float:right;
-				margin: 10px 0 0 5px;
-			}
-		}
+		
 	</style>
 </head>
 <body class="background-image-square">
@@ -205,16 +94,24 @@
 					<span class="clipped-square-right"></span>
 				</div>
 				<p class="lead">Some of my <em>on-going</em> GitHub projects and their associated web-pages:</p>
+				
 			</header>
 			<hr />
-			<div id="projectList_wrapper" >
-				<p class="alert-info">
-					If you can see this message, then something has gone wrong. Try opening this page in another browser, e.g. the latest version of Chrome or Firefox.
+			<div >
+				<div class="list-controls">
+					Sort by: <select name="project-order" id="project_order">
+						<option value="oldest-first">Oldest First</option>
+						<option value="newest-first">Newest First</option>
+					</select>
+				</div>
+				<div id="projectList_wrapper" >
+					<p class="alert-info">
+						If you can see this message, then something has gone wrong. Try opening this page in another browser, e.g. the latest version of Chrome or Firefox.
 
-				</p>
+					</p>
+				</div>				
 			</div>
 		</section>
-
 	</main>
 	<!-- Toggle when developing
 <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
