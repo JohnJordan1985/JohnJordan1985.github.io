@@ -60,18 +60,58 @@ var Project = function Project(props) {
   }), " ", project.language, " ")));
 };
 
-var ProjectList =
+var ListControls =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(ProjectList, _React$Component);
+  _inherits(ListControls, _React$Component);
+
+  function ListControls(props) {
+    _classCallCheck(this, ListControls);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ListControls).call(this));
+  }
+
+  _createClass(ListControls, [{
+    key: "_handleChange",
+    value: function _handleChange() {
+      console.log("Element has changed");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      return React.createElement("div", {
+        className: "list-controls"
+      }, "Sort by: ", React.createElement("select", {
+        name: "project-order",
+        id: "project_order",
+        onChange: function onChange(event) {
+          return _this.props.reorderList(event);
+        }
+      }, React.createElement("option", {
+        value: "newest-first"
+      }, "Newest First"), React.createElement("option", {
+        value: "oldest-first"
+      }, "Oldest First")));
+    }
+  }]);
+
+  return ListControls;
+}(React.Component);
+
+var ProjectList =
+/*#__PURE__*/
+function (_React$Component2) {
+  _inherits(ProjectList, _React$Component2);
 
   function ProjectList(props) {
-    var _this;
+    var _this2;
 
     _classCallCheck(this, ProjectList);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
-    _this.state = {
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).call(this, props));
+    _this2.state = {
       apiData: false,
       projects: [{
         projectName: "Caeser Cipher",
@@ -105,8 +145,9 @@ function (_React$Component) {
         projectDescription: "A project to build a web application using knockout.js, which integrated with Google Maps and the Yelp API, to display letious pubs on a map."
       }]
     };
-    _this._isMounted = false;
-    return _this;
+    _this2._isMounted = false;
+    _this2._sortingKey;
+    return _this2;
   }
 
   _createClass(ProjectList, [{
@@ -141,9 +182,30 @@ function (_React$Component) {
       return false;
     }
   }, {
+    key: "_sortingFunction",
+    value: function _sortingFunction(a, b) {
+      console.log("sorting function called");
+
+      if (this._sortingKey === "oldest-first") {
+        return new Date(a.created_at) - new Date(b.created_at);
+      }
+
+      return new Date(b.created_at) - new Date(a.created_at);
+    }
+  }, {
+    key: "_reorderList",
+    value: function _reorderList(event) {
+      this._sortingKey = event.currentTarget.value;
+      console.log(event); //'created_at' and 'updated_at' are properties of each project object, which can be used for targeting
+
+      this.setState({
+        projects: this.state.projects.sort(this._sortingFunction.bind(this))
+      });
+    }
+  }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       this._isMounted = true;
       var listedRepoListFromAPI;
@@ -152,14 +214,14 @@ function (_React$Component) {
         return results.json();
       }).then(function (data) {
         listedRepoListFromAPI = data.filter(function (repo) {
-          return _this2._isListedRepo(repo.id, _this2.state.projects);
+          return _this3._isListedRepo(repo.id, _this3.state.projects);
         });
 
-        var decoratedListedRepos = _this2._mergeLists(listedRepoListFromAPI, _this2.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
+        var decoratedListedRepos = _this3._mergeLists(listedRepoListFromAPI, _this3.state.projects); // watch order of arguments, want repoAPI data to be over-written !!
 
 
-        if (_this2._isMounted) {
-          _this2.setState({
+        if (_this3._isMounted) {
+          _this3.setState({
             apiData: true,
             projects: decoratedListedRepos
           });
@@ -174,17 +236,19 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
-      return React.createElement("ul", {
+      return React.createElement("div", null, React.createElement(ListControls, {
+        reorderList: this._reorderList.bind(this)
+      }), React.createElement("ul", {
         className: "project-list"
       }, this.state.projects.map(function (project, index) {
         return React.createElement(Project, {
           project: project,
           key: index,
-          apiData: _this3.state.apiData
+          apiData: _this4.state.apiData
         });
-      }));
+      })));
     }
   }]);
 
