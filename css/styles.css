@@ -83,7 +83,7 @@ footer {
 	background-color: white;
 }
 .background-image-square {
-	background-image: url(img/background_body.png);
+	background-image: url(../img/background_body.png);
 	background-repeat: repeat;
 	background-attachment: fixed;
 }
