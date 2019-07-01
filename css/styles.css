@@ -134,8 +134,13 @@ summary {
 	transition: border-bottom-color 0.5s ease-in;
 }
 
-ul {
-	list-style-type: square;
+ul.project-list {
+	list-style-type: none;
+}
+
+.project-list h2 {
+	position: relative;
+	left: -40px;
 }
 span.clipped-square-left, span.clipped-square-right  {
 	position: absolute;
